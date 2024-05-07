@@ -4,10 +4,11 @@ import 'package:peaceful_pulse/splash_screen.dart';
 
 import 'firebase_options.dart';
 
-void main() async {
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );-
   runApp(const MyApp());
 }
 

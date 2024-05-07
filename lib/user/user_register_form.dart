@@ -169,30 +169,30 @@ class _UserRegisterFormState extends State<UserRegisterForm> {
                               child: TextButton(
                                   onPressed: () {
                                     //   Register Logic
-                                    // if (_formKey.currentState!.validate()) {
-                                    //   FirebaseAuth.instance
-                                    //       .createUserWithEmailAndPassword(
-                                    //           email:
-                                    //               _emailController.toString(),
-                                    //           password: _passwordController
-                                    //               .toString())
-                                    //       .then((value) async {
-                                    //     String id = randomAlphaNumeric(10);
-                                    //     Map<String, dynamic> userInfoMap = {
-                                    //       "fullName": _nameController.text,
-                                    //       "eMail": _emailController.text,
-                                    //       "password": _passwordController.text,
-                                    //       "id": id
-                                    //     };
-                                    //     await DataBaseMethods()
-                                    //         .addPhotoDetails(userInfoMap, id);
-                                    //     Navigator.push(
-                                    //         context,
-                                    //         MaterialPageRoute(
-                                    //             builder: (context) =>
-                                    //                 const UserHome()));
-                                    //   });
-                                    // }
+                                    if (_formKey.currentState!.validate()) {
+                                      FirebaseAuth.instance
+                                          .createUserWithEmailAndPassword(
+                                              email:
+                                                  _emailController.toString(),
+                                              password: _passwordController
+                                                  .toString())
+                                          .then((value) async {
+                                        String id = randomAlphaNumeric(10);
+                                        Map<String, dynamic> userInfoMap = {
+                                          "fullName": _nameController.text,
+                                          "eMail": _emailController.text,
+                                          "password": _passwordController.text,
+                                          "id": id
+                                        };
+                                        await DataBaseMethods()
+                                            .addPhotoDetails(userInfoMap, id);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const UserHome()));
+                                      });
+                                    }
                                   },
                                   style: TextButton.styleFrom(
                                       shape: RoundedRectangleBorder(
