@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/custom_colors.dart';
+import '../services/database_methods.dart';
 
 class UserEditProfile extends StatefulWidget {
   const UserEditProfile({super.key});
@@ -11,15 +12,36 @@ class UserEditProfile extends StatefulWidget {
 }
 
 class _UserEditProfileState extends State<UserEditProfile> {
+
+  Stream? doctorStream;
+
+  getOnTheLoad() async{
+    doctorStream = await DataBaseMethods().getDoctorDetails();
+    setState(() {});
+  }
+
+
+  @override
+  void initState() {
+    getOnTheLoad();
+    super.initState();
+  }
+
+  final _formKey = GlobalKey();
+
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.secondaryColor,
       appBar: AppBar(
         backgroundColor: CustomColors.secondaryColor,
         leading: IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(CupertinoIcons.back)),
       ),
-      body: Container(
-        color: CustomColors.secondaryColor,
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Row(
@@ -39,7 +61,6 @@ class _UserEditProfileState extends State<UserEditProfile> {
                           height: 8,
                         ),
                         const CircleAvatar(
-                          backgroundImage: NetworkImage('https://s3-alpha-sig.figma.com/img/5e0b/f813/95ed55c8b7749a5a9d987d8c672265d4?Expires=1713744000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=LLbLKHk1EdpEB2an0LvQyUT2OM8TEfpoBuBlMD8TO3QUa4b0L9ljJkHij4gXP47fB-RaZANc1ZU7topEa-IjgXlEZzFT5PqZvlqZ8~Gx8uEY71Ebnj4z~g-yOZp8k6T8C4JQUTEUPQ8QpE08Sn6jiDX4DqF86TS7cSWRUYllxmHvvCtf3L3xsUDhO3oZiV47AQE52e0zy20MfvJxuglr9Z24fzpHxY9v1JsQ0t4-7qfR1amSv8GkaZN1hNxFhItTUBY6FomitflONIOoPBiuYmk8Ia45eV-6iQdCKsYkBsSwNS0j0dssAjPjnXoQZPjhAWAxN9pkt079cuKDcS7vdg__'),
                           backgroundColor: Colors.grey,
                           radius: 30,
                         ),

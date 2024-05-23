@@ -16,6 +16,7 @@ class _UserForgotPasswordState extends State<UserForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.secondaryColor,
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
@@ -27,10 +28,9 @@ class _UserForgotPasswordState extends State<UserForgotPassword> {
             )),
         backgroundColor: CustomColors.secondaryColor,
       ),
-      body: Container(
-        color: CustomColors.secondaryColor,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+        child: SingleChildScrollView(
           child: Column(
             children: [
               const Text("Forgot Password", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),

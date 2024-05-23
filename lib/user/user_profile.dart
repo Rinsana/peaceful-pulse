@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:peaceful_pulse/constants/custom_colors.dart';
@@ -13,6 +14,9 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
+
+  String? user= FirebaseAuth.instance.currentUser!.email;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -55,26 +59,14 @@ class _UserProfileState extends State<UserProfile> {
           const SizedBox(
             height: 30,
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Hey",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
-                ),
-                Text(
-                  "There!",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
-                ),
-              ],
+            child: Text(
+              user!,
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
           ),
           const SizedBox(
@@ -212,7 +204,9 @@ class _UserProfileState extends State<UserProfile> {
                   height: 10,
                 ),
                 InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      FirebaseAuth.instance.signOut().then((value) => {Navigator.of(context).pop()});
+                    },
                     child: Row(
                       children: [
                         Icon(

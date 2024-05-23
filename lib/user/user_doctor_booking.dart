@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:peaceful_pulse/constants/custom_colors.dart';
 
 class UserDoctorBooking extends StatefulWidget {
-  const UserDoctorBooking({super.key});
+  const UserDoctorBooking({super.key, required this.ds});
+  
+  final DocumentSnapshot? ds;
 
   @override
   State<UserDoctorBooking> createState() => _UserDoctorBookingState();
@@ -29,7 +32,7 @@ class _UserDoctorBookingState extends State<UserDoctorBooking> {
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Column(
                       children: [
-                        const Text(
+                        Text(
                           "Doctor",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.black),
@@ -37,19 +40,22 @@ class _UserDoctorBookingState extends State<UserDoctorBooking> {
                         const SizedBox(
                           height: 8,
                         ),
-                        const CircleAvatar(
-                          backgroundColor: Colors.grey,
-                          radius: 50,
+                        SizedBox(
+                          height: 70,
+                          width: 70,
+                          child: widget.ds!.exists
+                              ? Image.network(widget.ds?["Image"],)
+                              : const Center(child: Text("Photo")),
                         ),
                         SizedBox(height: 10,),
-                        const Text(
-                          "Dr. Muhammed",
+                        Text(
+                          widget.ds?["Name"],
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.black),
                         ),
                         SizedBox(height: 5,),
-                        const Text(
-                          "General Surgeon",
+                        Text(
+                          widget.ds?["Designation"],
                         ),
                         const SizedBox(height: 30,),
                         const Row(

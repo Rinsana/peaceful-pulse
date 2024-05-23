@@ -24,6 +24,7 @@ class _UserRegisterFormState extends State<UserRegisterForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
@@ -54,6 +55,7 @@ class _UserRegisterFormState extends State<UserRegisterForm> {
           Padding(
             padding: const EdgeInsets.only(top: 150.0),
             child: Container(
+              height: MediaQuery.of(context).size.height,
               decoration: const BoxDecoration(
                   color: CustomColors.secondaryColor,
                   borderRadius:
@@ -103,6 +105,23 @@ class _UserRegisterFormState extends State<UserRegisterForm> {
                               hintStyle: const TextStyle(
                                   color: CustomColors.secondaryColor),
                               hintText: "Email Address",
+                              filled: true,
+                              fillColor: CustomColors.primaryColor,
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5))),
+                          style: const TextStyle(
+                              color: CustomColors.secondaryColor),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          controller: _phoneController,
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                              hintStyle: const TextStyle(
+                                  color: CustomColors.secondaryColor),
+                              hintText: "Phone Number",
                               filled: true,
                               fillColor: CustomColors.primaryColor,
                               border: OutlineInputBorder(
@@ -172,26 +191,24 @@ class _UserRegisterFormState extends State<UserRegisterForm> {
                                     if (_formKey.currentState!.validate()) {
                                       FirebaseAuth.instance
                                           .createUserWithEmailAndPassword(
-                                              email:
-                                                  _emailController.toString(),
-                                              password: _passwordController
-                                                  .toString())
-                                          .then((value) async {
-                                        String id = randomAlphaNumeric(10);
+                                              email: _emailController.text,
+                                              password:
+                                                  _passwordController.text)
+                                          .then((credential) async {
+                                        String id = credential.user!.uid;
                                         Map<String, dynamic> userInfoMap = {
-                                          "fullName": _nameController.text,
-                                          "eMail": _emailController.text,
-                                          "password": _passwordController.text,
+                                          "Name": _nameController.text,
+                                          "Email": _emailController.text,
+                                          "Phone Number": _phoneController.text,
                                           "id": id
                                         };
                                         await DataBaseMethods()
-                                            .addPhotoDetails(userInfoMap, id);
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const UserHome()));
-                                      });
+                                            .addUserDetails(userInfoMap, id);
+                                      }).then((value) => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const UserHome())));
                                     }
                                   },
                                   style: TextButton.styleFrom(

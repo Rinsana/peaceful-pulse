@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:peaceful_pulse/constants/custom_colors.dart';
+import 'package:peaceful_pulse/services/database_methods.dart';
 import 'package:peaceful_pulse/user/user_medicine_info.dart';
 
 class UserMedicalStore extends StatefulWidget {
@@ -11,6 +13,19 @@ class UserMedicalStore extends StatefulWidget {
 }
 
 class _UserMedicalStoreState extends State<UserMedicalStore> {
+
+  Stream? medicineStream;
+  getOnLoad()async{
+    medicineStream= await DataBaseMethods().getMedicineDetails();
+    setState(() {});
+  }
+  @override
+  void initState() {
+    getOnLoad();
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -133,52 +148,61 @@ class _UserMedicalStoreState extends State<UserMedicalStore> {
             height: 15,
           ),
           SizedBox(
-              height: MediaQuery.of(context).size.height / 1.5,
-              child: GridView.count(
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 5,
-                padding: EdgeInsets.all(10),
-                crossAxisCount: 2,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const UserMedicineInfo()));
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      color: Colors.grey,
-                      child: const Text("Paracetamol"),
+            height: MediaQuery.of(context).size.height/1.5,
+            child: StreamBuilder(
+              stream: medicineStream,
+              builder: (context, snapshot) {
+                return snapshot.hasData? GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
                     ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    color: Colors.grey,
-                    child: const Text('Crinoline'),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    color: Colors.grey,
-                    child: const Text('Cal-pol'),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    color: Colors.grey,
-                    child: const Text('TigerBalm'),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    color: Colors.grey,
-                    child: const Text('Head'),
-                  ),
-                  Container(
-                      padding: const EdgeInsets.all(8),
-                      color: Colors.grey,
-                      child: const Text("Krucine"))
-                ],
-              ))
+                    itemCount: snapshot.data.docs.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      DocumentSnapshot ds = snapshot.data.docs[index];
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const UserMedicineInfo()));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            color: Colors.grey,
+                            child: Text(ds["Name"]),
+                          ),
+                        ),
+                      );
+                    }
+                ): Container();
+              }
+            ),
+          ),
+          // SizedBox(
+          //     height: MediaQuery.of(context).size.height / 1.5,
+          //     child: GridView.count(
+          //       mainAxisSpacing: 5,
+          //       crossAxisSpacing: 5,
+          //       padding: EdgeInsets.all(10),
+          //       crossAxisCount: 2,
+          //       children: [
+          //         InkWell(
+          //           onTap: () {
+          //             Navigator.push(
+          //                 context,
+          //                 MaterialPageRoute(
+          //                     builder: (context) => const UserMedicineInfo()));
+          //           },
+          //           child: Container(
+          //             padding: const EdgeInsets.all(8),
+          //             color: Colors.grey,
+          //             child: const Text("Paracetamol"),
+          //           ),
+          //         ),
+          //       ],
+          //     ))
         ],
       ),
     );
