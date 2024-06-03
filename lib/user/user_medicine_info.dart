@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:peaceful_pulse/constants/custom_colors.dart';
 
 class UserMedicineInfo extends StatefulWidget {
-  const UserMedicineInfo({super.key});
+  const UserMedicineInfo({super.key, required this.ds});
+
+  final DocumentSnapshot? ds;
 
   @override
   State<UserMedicineInfo> createState() => _UserMedicineInfoState();
@@ -37,54 +41,104 @@ class _UserMedicineInfoState extends State<UserMedicineInfo> {
           children: [
             Row(
               children: [
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height/3,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.grey),
-                  child: const Center(child: Text("Photo")),
+                  height: MediaQuery.of(context).size.height / 3,
+                  child: widget.ds!.exists
+                      ? Image.network(
+                          widget.ds?["Image"],
+                        )
+                      : const Center(child: Text("Photo")),
                 ),
               ],
             ),
-            const SizedBox(height: 20,),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text("Paracetamol [500mg]", style: TextStyle(fontWeight: FontWeight.bold),),
+            const SizedBox(
+              height: 20,
             ),
-            const SizedBox(height: 10,),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                widget.ds?["Name"],
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text("Rs 150"),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text("Available"),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Row(
                 children: [
-                  Container(decoration: BoxDecoration(color: Colors.yellowAccent, borderRadius: BorderRadius.circular(10)), child: const Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("300mg"),
-                  ),),
-                  SizedBox(width: 10,),
-                  Container(decoration: BoxDecoration(color: Colors.white70, borderRadius: BorderRadius.circular(10)), child: const Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("500mg"),
-                  ),),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.yellowAccent,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: const Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text("300mg"),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: const Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text("500mg"),
+                    ),
+                  ),
                 ],
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(10)), child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 15),
-                  child: Text("Purchase"),
-                ),),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: TextButton(
+                      onPressed: () {
+                        Fluttertoast.showToast(
+                            msg:
+                            "Medicine purchased",
+                            toastLength:
+                            Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.grey,
+                            textColor: Colors.white,
+                            fontSize: 16.0).then((value) => Navigator.pop(context));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 10),
+                        child: Text(
+                          "Purchase",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      )),
+                ),
               ],
             )
           ],

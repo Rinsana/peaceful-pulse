@@ -18,6 +18,14 @@ class UseCareCenterDetails extends StatefulWidget {
 
 class _UseCareCenterDetailsState extends State<UseCareCenterDetails> {
 
+  String? doctorName;
+  Future callingDoctors(String doctor)async{
+    final snapshotDoc=await  DataBaseMethods().getDoctor();
+    for (var doc in snapshotDoc.docs) {
+      doctorName= doc[doctor];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,42 +106,47 @@ class _UseCareCenterDetailsState extends State<UseCareCenterDetails> {
                                 SizedBox(
                                   width: 20,
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Doctor",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      "All Time Available",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    UserDoctorBooking(ds: widget.ds)));
-                                      },
-                                      style: TextButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          foregroundColor: Colors.white,
-                                          backgroundColor:
-                                              CustomColors.primaryColor),
-                                      child: const Text("Book"),
-                                    )
-                                  ],
+                                FutureBuilder(
+                                  future: callingDoctors(widget.ds!["Doctor"]),
+                                  builder: (context, snapshot) {
+                                    return Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          widget.ds!["Doctor"],
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          "Book with timing",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        UserDoctorBooking(ds: widget.ds,)));
+                                          },
+                                          style: TextButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              foregroundColor: Colors.white,
+                                              backgroundColor:
+                                                  CustomColors.primaryColor),
+                                          child: const Text("Book"),
+                                        )
+                                      ],
+                                    );
+                                  }
                                 )
                               ],
                             ),
@@ -175,8 +188,8 @@ class _UseCareCenterDetailsState extends State<UseCareCenterDetails> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
-                                      "Volunteer",
+                                    Text(
+                                      widget.ds!["Volunteer"],
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -246,7 +259,7 @@ class _UseCareCenterDetailsState extends State<UseCareCenterDetails> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Ambulence",
+                                      widget.ds!["Ambulance"],
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),

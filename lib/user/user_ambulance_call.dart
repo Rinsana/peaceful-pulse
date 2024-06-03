@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:peaceful_pulse/constants/custom_colors.dart';
 
@@ -116,7 +117,9 @@ class _UserAmbulanceCallState extends State<UserAmbulanceCall> {
                                                       fontWeight: FontWeight.w400, color: Colors.white),
                                                 )),
                                             TextButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                FlutterPhoneDirectCaller.callNumber(ds["Phone"]);
+                                              },
                                               style: TextButton.styleFrom(
                                                   shape: RoundedRectangleBorder(
                                                       borderRadius:

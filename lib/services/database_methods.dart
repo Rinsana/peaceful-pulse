@@ -12,8 +12,16 @@ class DataBaseMethods {
     return await FirebaseFirestore.instance.collection("Users").snapshots();
   }
 
+  Future updateUser(Map<String, dynamic> doctorInfoMap, String id) async{
+    return await FirebaseFirestore.instance.collection("Users").doc(id).update(doctorInfoMap);
+  }
+
   Future<Stream<QuerySnapshot>>getDoctorDetails()async{
     return await FirebaseFirestore.instance.collection("Doctors").snapshots();
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>>getDoctor()async{
+    return await FirebaseFirestore.instance.collection("Doctors").get();
   }
 
   Future<Stream<QuerySnapshot>>getAmbulanceDetails()async{
@@ -31,4 +39,12 @@ class DataBaseMethods {
   Future<Stream<QuerySnapshot>>getMedicineDetails()async{
     return await FirebaseFirestore.instance.collection("Medicine").snapshots();
   }
+
+  Future campBooking(Map<String, dynamic> userInfoMap, String id) async {
+    return await FirebaseFirestore.instance
+        .collection("Booking")
+        .doc(id)
+        .set(userInfoMap);
+  }
+
 }

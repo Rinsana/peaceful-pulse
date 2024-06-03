@@ -5,14 +5,16 @@ import 'package:peaceful_pulse/constants/custom_colors.dart';
 
 class UserDoctorBooking extends StatefulWidget {
   const UserDoctorBooking({super.key, required this.ds});
-  
+
   final DocumentSnapshot? ds;
 
   @override
   State<UserDoctorBooking> createState() => _UserDoctorBookingState();
 }
+enum BookingTime { am10, pm12, pm3 }
 
 class _UserDoctorBookingState extends State<UserDoctorBooking> {
+  BookingTime? bookingTime = BookingTime.am10;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,9 +56,9 @@ class _UserDoctorBookingState extends State<UserDoctorBooking> {
                               fontWeight: FontWeight.bold, color: Colors.black),
                         ),
                         SizedBox(height: 5,),
-                        Text(
-                          widget.ds?["Designation"],
-                        ),
+                        // Text(
+                        //   widget.ds?["Designation"],
+                        // ),
                         const SizedBox(height: 30,),
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -111,29 +113,49 @@ class _UserDoctorBookingState extends State<UserDoctorBooking> {
                         ),
                         SizedBox(height: 15,),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Container(
-                              color: Colors.yellowAccent,
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Text("10 : 00 AM",),
-                              ),
+                            Column(
+                              children: [
+                                const Text("10 AM", style: TextStyle(fontWeight: FontWeight.bold),),
+                                Radio<BookingTime>(
+                                    value: BookingTime.am10,
+                                    groupValue: bookingTime,
+                                    onChanged: (BookingTime? value) {
+                                      setState(() {
+                                        bookingTime = value;
+                                      });
+                                    },
+                                  ),
+                              ],
                             ),
-                            Spacer(),
-                            Container(
-                              color: Colors.white,
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Text("10 : 00 AM",),
-                              ),
+                            Column(
+                              children: [
+                                const Text("12 PM", style: TextStyle(fontWeight: FontWeight.bold),),
+                                Radio<BookingTime>(
+                                    value: BookingTime.pm12,
+                                    groupValue: bookingTime,
+                                    onChanged: (BookingTime? value) {
+                                      setState(() {
+                                        bookingTime = value;
+                                      });
+                                    },
+                                  ),
+                              ],
                             ),
-                            Spacer(),
-                            Container(
-                              color: Colors.white,
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Text("10 : 00 AM",),
-                              ),
+                            Column(
+                              children: [
+                                const Text("3 PM", style: TextStyle(fontWeight: FontWeight.bold),),
+                                Radio<BookingTime>(
+                                    value: BookingTime.pm3,
+                                    groupValue: bookingTime,
+                                    onChanged: (BookingTime? value) {
+                                      setState(() {
+                                        bookingTime = value;
+                                      });
+                                    },
+                                  ),
+                              ],
                             ),
                           ],
                         ),

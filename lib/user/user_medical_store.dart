@@ -31,56 +31,19 @@ class _UserMedicalStoreState extends State<UserMedicalStore> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Row(
-            children: [
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    CupertinoIcons.back,
-                    color: Colors.white,
-                  )),
-            ],
-          ),
           const SizedBox(
             height: 10,
           ),
-          const Text(
-            "Medicines",
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Text(
+              "Medicines",
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 30),
+            ),
           ),
+          const Divider(),
           const SizedBox(
             height: 10,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SearchAnchor(builder:
-                      (BuildContext context, SearchController controller) {
-                    return SearchBar(
-                      controller: controller,
-                      onTap: () {
-                        controller.openView();
-                      },
-                    );
-                  }, suggestionsBuilder:
-                      (BuildContext context, SearchController controller) {
-                    return List.generate(5, (int index) {
-                      final String item = 'item $index';
-                      return ListTile(
-                        title: Text(item),
-                        onTap: () {
-                          setState(() {
-                            controller.closeView(item);
-                          });
-                        },
-                      );
-                    });
-                  }),
-                ),
-              ),
-            ],
           ),
           const SizedBox(
             height: 10,
@@ -164,7 +127,7 @@ class _UserMedicalStoreState extends State<UserMedicalStore> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const UserMedicineInfo()));
+                                  builder: (context) => UserMedicineInfo(ds: ds,)));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:peaceful_pulse/splash_screen.dart';
+import 'package:peaceful_pulse/user/splash_screen.dart';
+import 'package:peaceful_pulse/user_select.dart';
 
 import 'firebase_options.dart';
 
