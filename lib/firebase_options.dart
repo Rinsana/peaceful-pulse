@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,9 +28,15 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -40,49 +49,20 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDi2_GhciJhY3gTpwzykk_iTG287h7UEBI',
-    appId: '1:142814119034:web:c5e40747c35660434ae7c3',
-    messagingSenderId: '142814119034',
-    projectId: 'peaceful-pulse-35af5',
-    authDomain: 'peaceful-pulse-35af5.firebaseapp.com',
-    storageBucket: 'peaceful-pulse-35af5.appspot.com',
-    measurementId: 'G-R0JYZN7QPK',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBVt8Zn1XIMA8pTtBl9v6TyewWq5kqdUqM',
-    appId: '1:142814119034:android:7ddcc8151cdab0c34ae7c3',
-    messagingSenderId: '142814119034',
-    projectId: 'peaceful-pulse-35af5',
-    storageBucket: 'peaceful-pulse-35af5.appspot.com',
+    apiKey: 'AIzaSyCC1uKsQObgqUXousCV_1M0FRfDcQa7dxg',
+    appId: '1:187586746885:android:fd7a74b266ab15dc06da6c',
+    messagingSenderId: '187586746885',
+    projectId: 'peaceful-pulse-c17ab',
+    storageBucket: 'peaceful-pulse-c17ab.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCUTgMBYeXOnxc4vtT2m1pzD38MhXqXGTk',
-    appId: '1:142814119034:ios:04d31c43f0ccf80d4ae7c3',
-    messagingSenderId: '142814119034',
-    projectId: 'peaceful-pulse-35af5',
-    storageBucket: 'peaceful-pulse-35af5.appspot.com',
+    apiKey: 'AIzaSyAj3Tyf-cmMpvpl6AVYyB7Y5VtRYHCjpWI',
+    appId: '1:187586746885:ios:22e51699cac0408306da6c',
+    messagingSenderId: '187586746885',
+    projectId: 'peaceful-pulse-c17ab',
+    storageBucket: 'peaceful-pulse-c17ab.appspot.com',
     iosBundleId: 'com.example.peacefulPulse',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCUTgMBYeXOnxc4vtT2m1pzD38MhXqXGTk',
-    appId: '1:142814119034:ios:04d31c43f0ccf80d4ae7c3',
-    messagingSenderId: '142814119034',
-    projectId: 'peaceful-pulse-35af5',
-    storageBucket: 'peaceful-pulse-35af5.appspot.com',
-    iosBundleId: 'com.example.peacefulPulse',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDi2_GhciJhY3gTpwzykk_iTG287h7UEBI',
-    appId: '1:142814119034:web:310e39e0eba509d84ae7c3',
-    messagingSenderId: '142814119034',
-    projectId: 'peaceful-pulse-35af5',
-    authDomain: 'peaceful-pulse-35af5.firebaseapp.com',
-    storageBucket: 'peaceful-pulse-35af5.appspot.com',
-    measurementId: 'G-E0BZ3EKQBM',
   );
 }

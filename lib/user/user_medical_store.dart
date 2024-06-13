@@ -133,8 +133,13 @@ class _UserMedicalStoreState extends State<UserMedicalStore> {
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
                             padding: const EdgeInsets.all(8),
-                            color: Colors.grey,
-                            child: Text(ds["Name"]),
+                            decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(ds["Image"]))),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(ds["Name"], style: TextStyle(color: Colors.white),),
+                              ],
+                            ),
                           ),
                         ),
                       );

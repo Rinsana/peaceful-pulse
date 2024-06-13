@@ -29,6 +29,38 @@ class _UserEventScheduleState extends State<UserEventSchedule> {
             const Divider(color: Colors.black45,),
             SizedBox(height: 40,),
             Text(
+              "Free Medical Camp at Perinthalmanna, Muncipality",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Row(
+              children: [
+                Text("on 30-08-2024"),
+                SizedBox(
+                  width: 10,
+                ),
+                TextButton(onPressed: () {}, child: Text("See more", style: TextStyle(color: Colors.lightBlue),))
+              ],
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Text(
+              "Free Medical Camp at Thirurkad, viva auditorium",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Row(
+              children: [
+                Text("on 20-08-2024"),
+                SizedBox(
+                  width: 10,
+                ),
+                TextButton(onPressed: () {}, child: Text("See more", style: TextStyle(color: Colors.lightBlue),))
+              ],
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Text(
               "Free Medical Camp at Muthukad Tribal Colony",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),

@@ -12,18 +12,37 @@ class UserDoctorBooking extends StatefulWidget {
   State<UserDoctorBooking> createState() => _UserDoctorBookingState();
 }
 enum BookingTime { am10, pm12, pm3 }
+late DateTime? bookDate;
+final TextEditingController bookDateController= TextEditingController();
 
 class _UserDoctorBookingState extends State<UserDoctorBooking> {
   BookingTime? bookingTime = BookingTime.am10;
+
+
+  Future<void> bookingDateSelect(BuildContext context) async {
+    bookDate = DateTime(2024, 1, 1);
+    final DateTime? newSelectedDate = await showDatePicker(
+      context: context,
+      initialDate: bookDate,
+      firstDate: DateTime(2024),
+      lastDate: DateTime(2027),
+    );
+    if (newSelectedDate != null) {
+      setState(() {
+        bookDateController.text = newSelectedDate.toString().split(" ")[0];
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.secondaryColor,
       appBar: AppBar(
         backgroundColor: CustomColors.secondaryColor,
         leading: IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(CupertinoIcons.back, color: Colors.black,)),
       ),
-      body: Container(
-        color: CustomColors.secondaryColor,
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Row(
@@ -87,16 +106,37 @@ class _UserDoctorBookingState extends State<UserDoctorBooking> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             const Text(
-                              "Available Dates",
+                              "Select Date",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, color: Colors.black),
                             ),
                             SizedBox(width: 20,),
-                            Container(
-                              decoration: BoxDecoration(color: CustomColors.primaryColor, borderRadius: BorderRadius.circular(10)),
+                            SizedBox(
+                              width: 200,
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
-                                child: Text("21-02-2024", style: TextStyle(color: Colors.white),),
+                                child: TextFormField(
+                                  controller: bookDateController,
+                                  validator: (date){
+                                    if (date== null || date.isEmpty){
+                                      return 'Please enter a Mfg date';
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    fillColor: CustomColors.primaryColor,
+                                      filled: true,
+                                      hintText: 'Date',
+                                      hintStyle: TextStyle(color: Colors.white),
+                                      border: const OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                                      suffixIcon: IconButton(
+                                          onPressed: () => bookingDateSelect(context),
+                                          icon: const Icon(
+                                            CupertinoIcons.calendar,
+                                            color: CustomColors.secondaryColor,
+                                          ))),
+                                ),
                               ),
                             )
                           ],
@@ -173,24 +213,6 @@ class _UserDoctorBookingState extends State<UserDoctorBooking> {
                               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 100),
                               child: Text(
                                 "Book Now",
-                                style: TextStyle(
-                                    color: CustomColors.secondaryColor),
-                              ),
-                            )),
-                        SizedBox(height: 15,),
-                        TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(5)),
-                                foregroundColor: Colors.white,
-                                backgroundColor:
-                                CustomColors.primaryColor),
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 100),
-                              child: Text(
-                                "Message",
                                 style: TextStyle(
                                     color: CustomColors.secondaryColor),
                               ),
