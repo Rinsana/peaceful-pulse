@@ -47,4 +47,11 @@ class DataBaseMethods {
         .set(userInfoMap);
   }
 
+  Future doctorBooking(Map<String, dynamic> docUserInfoMap, String id) async {
+    return await FirebaseFirestore.instance
+        .collection("Doctor Booking")
+        .doc(id)
+        .set(docUserInfoMap);
+  }
+
 }
