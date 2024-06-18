@@ -4,12 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:peaceful_pulse/constants/custom_colors.dart';
+import 'package:peaceful_pulse/models/doctor_model.dart';
 import 'package:peaceful_pulse/services/database_methods.dart';
 
 class UserDoctorBooking extends StatefulWidget {
-  const UserDoctorBooking({super.key, required this.ds});
+  const UserDoctorBooking({super.key, required this.docmodel});
 
-  final DocumentSnapshot? ds;
+  final DoctorModel? docmodel;
 
   @override
   State<UserDoctorBooking> createState() => _UserDoctorBookingState();
@@ -76,9 +77,9 @@ class _UserDoctorBookingState extends State<UserDoctorBooking> {
                         SizedBox(
                           height: 70,
                           width: 70,
-                          child: widget.ds!.exists
+                          child: widget.docmodel!.id.isNotEmpty
                               ? Image.network(
-                                  widget.ds?["Image"],
+                                  widget.docmodel!.image,
                                 )
                               : const Center(child: Text("Photo")),
                         ),
@@ -86,7 +87,7 @@ class _UserDoctorBookingState extends State<UserDoctorBooking> {
                           height: 10,
                         ),
                         Text(
-                          widget.ds?["Name"],
+                          widget.docmodel!.name,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.black),
                         ),
@@ -94,7 +95,7 @@ class _UserDoctorBookingState extends State<UserDoctorBooking> {
                           height: 5,
                         ),
                         Text(
-                          widget.ds?["Designation"],
+                          widget.docmodel!.designation,
                         ),
                         const SizedBox(
                           height: 30,
@@ -249,11 +250,11 @@ class _UserDoctorBookingState extends State<UserDoctorBooking> {
                         ),
                         TextButton(
                             onPressed: () async {
-                              String id = widget.ds!.id;
+                              String id = widget.docmodel!.id;
                               String user =
                                   FirebaseAuth.instance.currentUser!.uid;
                               Map<String, dynamic> docUserInfoMap = {
-                                "Doctor": widget.ds!["Name"],
+                                "Doctor": widget.docmodel!.name,
                                 "User": user,
                                 "Date": bookDateController.text,
                                 "Time": bookTime,

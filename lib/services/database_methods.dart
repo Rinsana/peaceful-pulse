@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DataBaseMethods {
@@ -34,6 +36,9 @@ class DataBaseMethods {
 
   Future<Stream<QuerySnapshot>>getCenterDetails()async{
     return await FirebaseFirestore.instance.collection("Centers").snapshots();
+  }
+  Future<Stream<QuerySnapshot>>getCampDetails()async{
+    return await FirebaseFirestore.instance.collection("Camps").snapshots();
   }
 
   Future<Stream<QuerySnapshot>>getMedicineDetails()async{

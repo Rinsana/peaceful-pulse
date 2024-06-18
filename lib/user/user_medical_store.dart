@@ -13,18 +13,27 @@ class UserMedicalStore extends StatefulWidget {
 }
 
 class _UserMedicalStoreState extends State<UserMedicalStore> {
-
   Stream? medicineStream;
-  getOnLoad()async{
-    medicineStream= await DataBaseMethods().getMedicineDetails();
+  // QuerySnapshot? fevMed;
+  getOnLoad() async {
+    medicineStream = await DataBaseMethods().getMedicineDetails();
     setState(() {});
   }
+
   @override
   void initState() {
     getOnLoad();
     super.initState();
   }
 
+  getByCatagory(String usage) async {
+    setState(() {
+      medicineStream = FirebaseFirestore.instance
+        .collection("Medicine")
+        .where("Usage", isEqualTo: usage)
+        .snapshots();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +47,10 @@ class _UserMedicalStoreState extends State<UserMedicalStore> {
             padding: EdgeInsets.all(10.0),
             child: Text(
               "Medicines",
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 30),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 30),
             ),
           ),
           const Divider(),
@@ -72,36 +84,39 @@ class _UserMedicalStoreState extends State<UserMedicalStore> {
                   decoration: BoxDecoration(
                       color: Colors.grey,
                       borderRadius: BorderRadius.circular(10)),
+                  child: TextButton(
+                      onPressed: () {
+                        getByCatagory("Suger");
+                      },
+                      child: Text("Suger", style: TextStyle(color: Colors.black),)),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: TextButton(
+                    onPressed: () {
+                      getByCatagory("Pressure");
+                    },
+                    child: Text("Pressure", style: TextStyle(color: Colors.black),)),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: TextButton(
+                    onPressed: () {
+                      getByCatagory("Headache");
+                    },
+                    child: Text("Painkiller", style: TextStyle(color: Colors.black),)),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(10)),
                   child: const Padding(
                     padding: EdgeInsets.all(10.0),
                     child: Text("Fever"),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: const Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("Suger"),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: const Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("Pressure"),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: const Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("Painkiller"),
                   ),
                 )
               ],
@@ -111,42 +126,50 @@ class _UserMedicalStoreState extends State<UserMedicalStore> {
             height: 15,
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height/1.5,
+            height: MediaQuery.of(context).size.height / 1.5,
             child: StreamBuilder(
-              stream: medicineStream,
-              builder: (context, snapshot) {
-                return snapshot.hasData? GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                    ),
-                    itemCount: snapshot.data.docs.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      DocumentSnapshot ds = snapshot.data.docs[index];
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UserMedicineInfo(ds: ds,)));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(image: DecorationImage(image: NetworkImage(ds["Image"]))),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(ds["Name"], style: TextStyle(color: Colors.white),),
-                              ],
-                            ),
+                stream: medicineStream,
+                builder: (context, snapshot) {
+                  return snapshot.hasData
+                      ? GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
                           ),
-                        ),
-                      );
-                    }
-                ): Container();
-              }
-            ),
+                          itemCount: snapshot.data.docs.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            DocumentSnapshot ds = snapshot.data.docs[index];
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => UserMedicineInfo(
+                                              ds: ds,
+                                            )));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: NetworkImage(ds["Image"]))),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        ds["Name"],
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          })
+                      : Container();
+                }),
           ),
           // SizedBox(
           //     height: MediaQuery.of(context).size.height / 1.5,
